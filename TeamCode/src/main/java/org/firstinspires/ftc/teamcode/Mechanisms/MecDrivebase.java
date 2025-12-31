@@ -47,7 +47,7 @@ public class MecDrivebase {
         double backRightPower = forward + strafe - rotate;
 
         double maxPower = 1.0;
-        double maxSpeed = 0.75;
+        double maxSpeed = 1.0;
 
         maxPower = Math.max(maxPower, Math.abs(frontLeftPower));
         maxPower = Math.max(maxPower, Math.abs(backLeftPower));

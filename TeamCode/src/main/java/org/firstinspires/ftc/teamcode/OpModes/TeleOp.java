@@ -1,8 +1,9 @@
 package org.firstinspires.ftc.teamcode.OpModes;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.util.ElapsedTime;
 
-import org.firstinspires.ftc.teamcode.Kronos.IntakeConfig;
+import org.firstinspires.ftc.teamcode.Mechanisms.IntakeConfig;
 import org.firstinspires.ftc.teamcode.Mechanisms.KickStand;
 import org.firstinspires.ftc.teamcode.Mechanisms.MecDrivebase;
 import org.firstinspires.ftc.teamcode.Mechanisms.Shooter;
@@ -19,10 +20,64 @@ public class TeleOp extends LinearOpMode{
     Turret turret = new Turret();
     Hood hood = new Hood();
     KickConfig kick = new KickConfig();
-    IntakeConfig intake = new IntakeConfig();
     MecDrivebase drive = new MecDrivebase();
-
+    IntakeConfig intake = new IntakeConfig();
+    ElapsedTime kickTimer = new ElapsedTime();
     double forward, strafe, rotate;
+
+    static int step = -1;
+
+    public void kickKickKick(){
+
+        if (step == -1) return;
+
+        switch (step) {
+            case 0:
+                kickTimer.reset();
+                step = 1;
+                break;
+            case 1:
+                kick.kickOne();
+                kickTimer.reset();
+                step = 2;
+                break;
+            case 2:
+                if (kickTimer.milliseconds() > 350) {
+                    kick.retractOne();
+                    kickTimer.reset();
+                    step = 3;
+                }
+                break;
+            case 3:
+                if(kickTimer.milliseconds() > 200) {
+                    kick.kickTwo();
+                    kickTimer.reset();
+                    step = 4;
+                }
+                break;
+            case 4:
+                if (kickTimer.milliseconds() > 350) {
+                    kick.retractTwo();
+                    kickTimer.reset();
+                    step = 5;
+                }
+                break;
+            case 5:
+                if (kickTimer.milliseconds() > 350) {
+                    kick.kickThree();
+                    kickTimer.reset();
+                    step = 6;
+                }
+                break;
+            case 6:
+                if (kickTimer.milliseconds() > 350) {
+                    kick.retractThree();
+                    kickTimer.reset();
+                    step = -1;
+                }
+                break;
+        }
+    }
 
     @Override
     public void runOpMode() throws InterruptedException {
@@ -100,9 +155,9 @@ public class TeleOp extends LinearOpMode{
                 drive.imu.resetYaw();
             }
 
-//            public void kick(){
-//
-//            }
+            if(gamepad2.y){
+                kickKickKick();
+            }
         }
     }
 }
