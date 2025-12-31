@@ -42,27 +42,27 @@ public class TeleOp extends LinearOpMode{
             rotate = gamepad1.right_stick_x;
             drive.driveFieldRelative(forward, strafe, rotate);
 
-            if(gamepad1.left_trigger >= 0.7){
+            if(gamepad2.left_trigger >= 0.7){
                 intake.IntakeMotorMax();
-            } else if (gamepad1.dpad_up){
+            } else if (gamepad2.dpad_up){
                 intake.OutIntake();
             } else {
                 intake.IntakeMotorStop();
             }
 
-            if(gamepad1.a){
+            if(gamepad2.a){
                 kick.kickOne();
             } else {
                 kick.retractOne();
             }
 
-            if(gamepad1.b){
+            if(gamepad2.b){
                 kick.kickTwo();
             } else {
                 kick.retractTwo();
             }
 
-            if(gamepad1.x){
+            if(gamepad2.x){
                 kick.kickThree();
             } else {
                 kick.retractThree();
@@ -94,6 +94,10 @@ public class TeleOp extends LinearOpMode{
                 kickStand.kickStandMax();
             } else {
                 kickStand.kickStandStop();
+            }
+
+            if(gamepad1.dpad_up) {
+                drive.imu.resetYaw();
             }
 
 //            public void kick(){

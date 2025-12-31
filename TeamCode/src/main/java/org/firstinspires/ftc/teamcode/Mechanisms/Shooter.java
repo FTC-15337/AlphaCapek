@@ -14,7 +14,7 @@ public class Shooter {
         shooter.setZeroPowerBehavior(DcMotorEx.ZeroPowerBehavior.BRAKE);
     }
     public void shooterMax(){
-        shooter.setVelocity(840);
+        shooter.setVelocity(1400);
     }
     public void shooterStop(){
         shooter.setVelocity(0);
