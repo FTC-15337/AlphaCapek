@@ -92,8 +92,8 @@ public class TeleOp extends LinearOpMode{
         waitForStart();
 
         while(!isStopRequested() && opModeIsActive()) {
-            forward = -gamepad1.left_stick_y;
-            strafe = gamepad1.left_stick_x;
+            forward = gamepad1.left_stick_y;
+            strafe = -gamepad1.left_stick_x;
             rotate = gamepad1.right_stick_x;
             drive.driveFieldRelative(forward, strafe, rotate);
 
@@ -155,9 +155,12 @@ public class TeleOp extends LinearOpMode{
                 drive.imu.resetYaw();
             }
 
-            if(gamepad2.y){
-                kickKickKick();
+            if(gamepad2.y && step == -1) {
+                step = 0;
+                kickTimer.reset();
             }
+
+            kickKickKick();
         }
     }
 }
