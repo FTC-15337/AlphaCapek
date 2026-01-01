@@ -3,9 +3,13 @@ package org.firstinspires.ftc.teamcode.OpModes;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
+import org.firstinspires.ftc.teamcode.Mechanisms.ColorOne;
+import org.firstinspires.ftc.teamcode.Mechanisms.ColorThree;
+import org.firstinspires.ftc.teamcode.Mechanisms.ColorTwo;
 import org.firstinspires.ftc.teamcode.Mechanisms.IntakeConfig;
 import org.firstinspires.ftc.teamcode.Mechanisms.KickStand;
 //import org.firstinspires.ftc.teamcode.Mechanisms.Limelight;
+import org.firstinspires.ftc.teamcode.Mechanisms.LimelightConfig;
 import org.firstinspires.ftc.teamcode.Mechanisms.MecDrivebase;
 import org.firstinspires.ftc.teamcode.Mechanisms.Shooter;
 import org.firstinspires.ftc.teamcode.Mechanisms.Turret;
@@ -24,62 +28,146 @@ public class TeleOp extends LinearOpMode{
     MecDrivebase drive = new MecDrivebase();
     IntakeConfig intake = new IntakeConfig();
     ElapsedTime kickTimer = new ElapsedTime();
-    //Limelight limelight = new Limelight();
+    LimelightConfig limelight = new LimelightConfig();
     double forward, strafe, rotate;
+    ColorOne c1 = new ColorOne();
+    ColorTwo c2 = new ColorTwo();
+    ColorThree c3 = new ColorThree();
+    int step = -1;
+    public void autoKick(){
+        if(step == -1) return;
+        switch(step){
 
-    static int step = -1;
-
-    public void kickKickKick(){
-
-        if (step == -1) return;
-
-        switch (step) {
             case 0:
+                kick.kickOne();
                 kickTimer.reset();
                 step = 1;
                 break;
             case 1:
-                kick.kickOne();
-                kickTimer.reset();
-                step = 2;
-                break;
-            case 2:
-                if (kickTimer.milliseconds() > 350) {
+                if(kickTimer.milliseconds() >= 200){
                     kick.retractOne();
-                    kickTimer.reset();
-                    step = 3;
+                    step = 2;
                 }
                 break;
+            case 2:
+                kick.kickTwo();
+                kickTimer.reset();
+                step = 3;
+                break;
             case 3:
-                if(kickTimer.milliseconds() > 200) {
-                    kick.kickTwo();
-                    kickTimer.reset();
+                if(kickTimer.milliseconds() >= 200){
+                    kick.retractTwo();
                     step = 4;
                 }
                 break;
             case 4:
-                if (kickTimer.milliseconds() > 350) {
-                    kick.retractTwo();
-                    kickTimer.reset();
-                    step = 5;
-                }
+                kick.kickThree();
+                kickTimer.reset();
+                step = 5;
                 break;
             case 5:
-                if (kickTimer.milliseconds() > 350) {
-                    kick.kickThree();
-                    kickTimer.reset();
-                    step = 6;
-                }
-                break;
-            case 6:
-                if (kickTimer.milliseconds() > 350) {
+                if(kickTimer.milliseconds() >= 200){
                     kick.retractThree();
-                    kickTimer.reset();
                     step = -1;
                 }
                 break;
+
+
         }
     }
+    int green = -1;
+    int purple = -1;
+    public void sortGreen(){
+        if(green == -1){ return;}
+        switch(green){
+            case 0:
+                if(c1.getDetectedColor(telemetry).equals(ColorOne.DetectedColor.GREEN)){
+                    kick.kickOne();
+                    kickTimer.reset();
+                    if(kickTimer.milliseconds() >= 200){
+                        kick.retractOne();
+                    }
+                    green = -1;
+                }else{
+                    kickTimer.reset();
+                    green = 1;
+                }
+                break;
+            case 1:
+                if(c2.getDetectedColor(telemetry).equals(ColorTwo.DetectedColor.GREEN)){
+                    kick.kickTwo();
+                    kickTimer.reset();
+                    if(kickTimer.milliseconds() >= 200){
+                        kick.retractTwo();
+                    }
+                    green = -1;
+                }else{
+                    kickTimer.reset();
+                    green = 2;
+                }
+                break;
+            case 2:
+                if(c3.getDetectedColor(telemetry).equals(ColorThree.DetectedColor.GREEN)){
+                    kick.kickThree();
+                    kickTimer.reset();
+                    if(kickTimer.milliseconds() >= 200){
+                        kick.retractThree();
+                    }
+                    green = -1;
+                }else{
+                    kickTimer.reset();
+                    telemetry.addLine("ERROR");
+                    green = -1;
+                }
+        }
+    }
+    public void sortPurple() {
+        if (green == -1) {
+            return;
+        }
+        switch (green) {
+            case 0:
+                if (c1.getDetectedColor(telemetry).equals(ColorOne.DetectedColor.PURPLE)) {
+                    kick.kickOne();
+                    kickTimer.reset();
+                    if (kickTimer.milliseconds() >= 200) {
+                        kick.retractOne();
+                    }
+                    purple = -1;
+                } else {
+                    kickTimer.reset();
+                    purple = 1;
+                }
+                break;
+            case 1:
+                if (c2.getDetectedColor(telemetry).equals(ColorTwo.DetectedColor.PURPLE)) {
+                    kick.kickTwo();
+                    kickTimer.reset();
+                    if (kickTimer.milliseconds() >= 200) {
+                        kick.retractTwo();
+                    }
+                    purple = -1;
+                } else {
+                    kickTimer.reset();
+                    purple = 2;
+                }
+                break;
+            case 2:
+                if (c3.getDetectedColor(telemetry).equals(ColorThree.DetectedColor.PURPLE)) {
+                    kick.kickThree();
+                    kickTimer.reset();
+                    if (kickTimer.milliseconds() >= 200) {
+                        kick.retractThree();
+                    }
+                    purple = -1;
+                } else {
+                    kickTimer.reset();
+                    telemetry.addLine("ERROR");
+                    purple = -1;
+                }
+        }
+    }
+
 
     @Override
     public void runOpMode() throws InterruptedException {
@@ -90,7 +178,10 @@ public class TeleOp extends LinearOpMode{
         hood.init(hardwareMap);
         kickStand.init(hardwareMap);
         drive.init(hardwareMap);
-        //limelight.init(hardwareMap);
+        limelight.init(hardwareMap);
+        c1.init(hardwareMap);
+        c2.init(hardwareMap);
+        c3.init(hardwareMap);
 
         waitForStart();
 
@@ -108,23 +199,9 @@ public class TeleOp extends LinearOpMode{
                 intake.IntakeMotorStop();
             }
 
-            if(gamepad2.a){
-                kick.kickOne();
-            } else {
-                kick.retractOne();
-            }
+            limelight.alignTurret(gamepad2.left_bumper);
 
-            if(gamepad2.b){
-                kick.kickTwo();
-            } else {
-                kick.retractTwo();
-            }
 
-            if(gamepad2.x){
-                kick.kickThree();
-            } else {
-                kick.retractThree();
-            }
 
             if(gamepad1.right_trigger >= 0.7){
                 shooter.shooterMax();
@@ -158,12 +235,23 @@ public class TeleOp extends LinearOpMode{
                 drive.imu.resetYaw();
             }
 
-            if(gamepad2.y && step == -1) {
-                step = 0;
-                kickTimer.reset();
+            if(gamepad2.dpad_left && green == -1){
+                green = 0;
             }
 
-            kickKickKick();
+            if(gamepad2.dpad_right && purple == -1){
+                purple = 0;
+            }
+
+            if(gamepad2.y && step == -1) {
+                step = 0;
+            }
+
+            autoKick();
+            sortGreen();
+            sortPurple();
+
+            telemetry.update();
         }
     }
 }
