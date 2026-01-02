@@ -8,7 +8,7 @@ import com.qualcomm.robotcore.hardware.NormalizedRGBA;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 
-public class ColorThree {
+public class Sorter3 {
     private NormalizedColorSensor colorSensor;
 
 
@@ -49,9 +49,10 @@ public class ColorThree {
         float greenRatio = g / total;
         float blueRatio = b / total;
 
-        telemetry.addData("Red Ratio", redRatio);
-        telemetry.addData("Green Ratio", greenRatio);
-        telemetry.addData("Blue Ratio", blueRatio);
+        //telemetry.addData("Red Ratio", redRatio);
+        //telemetry.addData("Green Ratio", greenRatio);
+        //telemetry.addData("Blue Ratio", blueRatio);
+        //telemetry.addData("Distance", GetDistance());
         if (GetDistance() < 16) {
 
             if (redRatio > 0.22 && greenRatio < 0.4) {

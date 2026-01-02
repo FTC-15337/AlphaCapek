@@ -8,7 +8,7 @@ import com.qualcomm.robotcore.hardware.NormalizedRGBA;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 
-public class ColorTwo {
+public class Sorter1 {
     private NormalizedColorSensor colorSensor;
 
 
@@ -31,8 +31,8 @@ public class ColorTwo {
     }
 
     public void init(HardwareMap hwMap) {
-        colorSensor = hwMap.get(NormalizedColorSensor.class, "c2");
-        distance = hwMap.get(DistanceSensor.class , "c3");
+        colorSensor = hwMap.get(NormalizedColorSensor.class, "c1");
+        distance = hwMap.get(DistanceSensor.class , "d1");
     }
 
 
@@ -49,12 +49,13 @@ public class ColorTwo {
         float greenRatio = g / total;
         float blueRatio = b / total;
 
-        telemetry.addData("Red Ratio", redRatio);
-        telemetry.addData("Green Ratio", greenRatio);
-        telemetry.addData("Blue Ratio", blueRatio);
-        if (greenRatio >= 0.4 && greenRatio <= 0.43) {
+        //telemetry.addData("Red Ratio", redRatio);
+        //telemetry.addData("Green Ratio", greenRatio);
+        //telemetry.addData("Blue Ratio", blueRatio);
+        //telemetry.addData("Distance", GetDistance());
+        if (greenRatio >= 0.375 && greenRatio <= 0.45) {
             return DetectedColor.UNKNOWN;
-        } else{
+        }else{
 
             if (redRatio > 0.22 && greenRatio < 0.4) {
                 return DetectedColor.PURPLE;
