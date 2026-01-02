@@ -8,7 +8,6 @@ import org.firstinspires.ftc.teamcode.Mechanisms.Sorter3;
 import org.firstinspires.ftc.teamcode.Mechanisms.Sorter2;
 import org.firstinspires.ftc.teamcode.Mechanisms.IntakeConfig;
 import org.firstinspires.ftc.teamcode.Mechanisms.KickStand;
-//import org.firstinspires.ftc.teamcode.Mechanisms.Limelight;
 import org.firstinspires.ftc.teamcode.Mechanisms.LimelightConfig;
 import org.firstinspires.ftc.teamcode.Mechanisms.MecDrivebase;
 import org.firstinspires.ftc.teamcode.Mechanisms.Shooter;
@@ -33,7 +32,9 @@ public class TeleOp extends LinearOpMode{
     Sorter1 c1 = new Sorter1();
     Sorter2 c2 = new Sorter2();
     Sorter3 c3 = new Sorter3();
+    public void SetOperator(){
 
+    }
     int step = -1;
     public void autoKick(){
         if(step == -1) return;
