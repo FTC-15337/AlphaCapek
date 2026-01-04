@@ -14,6 +14,8 @@ import org.firstinspires.ftc.teamcode.Mechanisms.Shooter;
 import org.firstinspires.ftc.teamcode.Mechanisms.Turret;
 import org.firstinspires.ftc.teamcode.Mechanisms.Hood;
 import org.firstinspires.ftc.teamcode.Mechanisms.KickConfig;
+import org.firstinspires.ftc.teamcode.Mechanisms.WebcamSorting;
+import org.firstinspires.ftc.vision.apriltag.AprilTagDetection;
 
 
 @com.qualcomm.robotcore.eventloop.opmode.TeleOp(name = "TeleOp")
@@ -28,6 +30,7 @@ public class TeleOp extends LinearOpMode{
     IntakeConfig intake = new IntakeConfig();
     ElapsedTime kickTimer = new ElapsedTime();
     LimelightConfig limelight = new LimelightConfig();
+    WebcamSorting webcam = new WebcamSorting();
     double forward, strafe, rotate;
     Sorter1 c1 = new Sorter1();
     Sorter2 c2 = new Sorter2();
@@ -201,6 +204,7 @@ public class TeleOp extends LinearOpMode{
         c1.init(hardwareMap);
         c2.init(hardwareMap);
         c3.init(hardwareMap);
+        webcam.init(hardwareMap, telemetry);
 
         waitForStart();
 
@@ -270,12 +274,12 @@ public class TeleOp extends LinearOpMode{
             sortGreen();
             sortPurple();
 
-            //telemetry.addData("c1" , c1.getDetectedColor(telemetry));
-            //telemetry.addData("c2" , c2.getDetectedColor(telemetry));
-            //telemetry.addData("c3" , c3.getDetectedColor(telemetry));
+            webcam.update();
+            webcam.getId();
+
+            telemetry.addData("Tag ID is", webcam.getId());
 
             telemetry.update();
-
         }
     }
 }
