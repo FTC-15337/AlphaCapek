@@ -14,8 +14,7 @@ import org.firstinspires.ftc.teamcode.Mechanisms.Shooter;
 import org.firstinspires.ftc.teamcode.Mechanisms.Turret;
 import org.firstinspires.ftc.teamcode.Mechanisms.Hood;
 import org.firstinspires.ftc.teamcode.Mechanisms.KickConfig;
-import org.firstinspires.ftc.teamcode.Mechanisms.WebcamSorting;
-import org.firstinspires.ftc.vision.apriltag.AprilTagDetection;
+import org.firstinspires.ftc.teamcode.Mechanisms.WebcamConfig;
 
 
 @com.qualcomm.robotcore.eventloop.opmode.TeleOp(name = "TeleOp")
@@ -30,7 +29,7 @@ public class TeleOp extends LinearOpMode{
     IntakeConfig intake = new IntakeConfig();
     ElapsedTime kickTimer = new ElapsedTime();
     LimelightConfig limelight = new LimelightConfig();
-    WebcamSorting webcam = new WebcamSorting();
+    WebcamConfig webcam = new WebcamConfig();
     double forward, strafe, rotate;
     Sorter1 c1 = new Sorter1();
     Sorter2 c2 = new Sorter2();
@@ -209,9 +208,9 @@ public class TeleOp extends LinearOpMode{
         waitForStart();
 
         while(!isStopRequested() && opModeIsActive()) {
-            forward = gamepad1.left_stick_y;
-            strafe = -gamepad1.left_stick_x;
-            rotate = gamepad1.right_stick_x;
+            forward = -gamepad1.left_stick_y;
+            strafe = gamepad1.left_stick_x;
+            rotate = -gamepad1.right_stick_x;
             drive.driveFieldRelative(forward, strafe, rotate);
 
             if(gamepad2.left_trigger >= 0.7){

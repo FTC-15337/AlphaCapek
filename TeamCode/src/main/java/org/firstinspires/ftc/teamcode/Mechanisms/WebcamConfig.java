@@ -15,7 +15,7 @@ import org.firstinspires.ftc.vision.apriltag.AprilTagProcessor;
 import java.util.ArrayList;
 import java.util.List;
 
-public class WebcamSorting {
+public class WebcamConfig {
     private AprilTagProcessor aprilTagProcessor;
     private VisionPortal visionPortal;
 
