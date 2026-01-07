@@ -13,13 +13,14 @@ public class Hood {
         hood = hwMap.get(Servo.class, "hood");
         turret = hwMap.get(CRServo.class, "turret");
         turret.setDirection(DcMotorSimple.Direction.REVERSE);
+        hoodLow();
     }
 
     public void hoodHigh() {
         hood.setPosition(0.7);
     }
     public void hoodMed() {
-        hood.setPosition(0.4);
+        hood.setPosition(0.5);
     }
     public void hoodLow() {
         hood.setPosition(0.0);
